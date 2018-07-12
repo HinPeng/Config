@@ -1,0 +1,28 @@
+{
+    "editor.fontSize": 16,
+    "editor.fontFamily": "Monaco, Inconsolata",
+    "editor.minimap.enabled": false,
+    "editor.detectIndentation": false,
+    "editor.tabSize": 2,
+    "python.pythonPath": "C:/Users/v-xuapen/AppData/Local/Programs/Python/Python36-32/python.exe",
+    "window.zoomLevel": 0,
+    "window.closeWhenEmpty": true,
+    "window.newWindowDimensions": "maximized",
+    "window.openFilesInNewWindow": "on",
+    "files.autoSave": "onFocusChange",
+    "gitlens.advanced.messages": {
+        "suppressCommitHasNoPreviousCommitWarning": false,
+        "suppressCommitNotFoundWarning": false,
+        "suppressFileNotUnderSourceControlWarning": false,
+        "suppressGitVersionWarning": false,
+        "suppressLineUncommittedWarning": false,
+        "suppressNoRepositoryWarning": false,
+        "suppressResultsExplorerNotice": false,
+        "suppressShowKeyBindingsNotice": true
+    },
+    "gitlens.hovers.enabled": false,
+    "workbench.colorTheme": "One Dark Pro Vivid",
+    "markdown-pdf.headerTemplate": "<div style=\"font-size: 9px; margin-left: 1cm;\"> <div style=\"font-size: 9px; margin-left: auto; margin-right: 1cm; \">",
+    "gitlens.historyExplorer.enabled": true,
+    "latex-workshop.view.pdf.viewer": "tab",
+}
