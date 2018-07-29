@@ -1,0 +1,5 @@
+{
+  "key": "ctrl+shift+x",
+  "command": "editor.action.trimTrailingWhitespace",
+  "when": "editorTextFocus && !editorReadonly"
+}
