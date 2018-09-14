@@ -26,4 +26,81 @@
     "markdown-pdf.headerTemplate": "<div style=\"font-size: 9px; margin-left: 1cm;\"> <div style=\"font-size: 9px; margin-left: auto; margin-right: 1cm; \">",
     "gitlens.historyExplorer.enabled": true,
     "latex-workshop.view.pdf.viewer": "tab",
+    "explorer.confirmDelete": false,
+    
+    "todohighlight.isEnable": true,
+    "todohighlight.isCaseSensitive": true,
+    "todohighlight.keywords": [
+      {
+        "text": "DEBUG",
+        // "color": ""
+        "fontStyle": "italic",
+        "backgroundColor": "ThemeColor"
+      },
+      {
+        "text": "REVIEW",
+        // "color": ""
+        "fontStyle": "italic",
+        "backgroundColor": "ThemeColor"
+      },
+      {
+          "text": "NOTE:",
+          "color": "#E066FF",
+          "fontStyle": "italic",
+          "backgroundColor": "ThemeColor",
+          "overviewRulerColor": "grey"
+      },
+      {
+          "text": "HACK:",
+          "color": "#E066FF",
+          "fontStyle": "italic",
+          "backgroundColor": "ThemeColor",
+          "isWholeLine": false,
+      },
+      {
+        "text": "HACK",
+        "color": "#E066FF",
+        "fontStyle": "italic",
+        "backgroundColor": "ThemeColor",
+        "isWholeLine": false,
+      },
+      {
+          "text": "TODO:",
+          "fontStyle": "italic",
+          "color": "#E066FF",
+          // "border": "1px solid red",
+          // "borderRadius": "2px", //NOTE: using borderRadius along with `border` or you will see nothing change
+          "backgroundColor": "ThemeColor",
+          //other styling properties goes here ... 
+      }
+    ],
+    "todohighlight.include": [
+        "**/*.js",
+        "**/*.jsx",
+        "**/*.ts",
+        "**/*.tsx",
+        "**/*.html",
+        "**/*.php",
+        "**/*.css",
+        "**/*.scss",
+        "**/*.cc",
+        "**/*.cpp",
+        "**/*.h",
+        "**/*.py",
+        "**/*.md"
+    ],
+    "todohighlight.exclude": [
+        "**/node_modules/**",
+        "**/bower_components/**",
+        "**/dist/**",
+        "**/build/**",
+        "**/.vscode/**",
+        "**/.github/**",
+        "**/_output/**",
+        "**/*.min.*",
+        "**/*.map",
+        "**/.next/**"
+    ],
+    "todohighlight.maxFilesForSearch": 5120,
+    "todohighlight.toggleURI": false
 }
