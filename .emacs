@@ -1,10 +1,16 @@
-(add-to-list 'auto-mode-alist '("\\.cu\\'" . c++-mode))
 (require 'package)
 (add-to-list'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
 
+;; ## ================================================= ##
+;; Packages needed to be installed
+;; atom-one-dark-theme
+;; smex
+;; multiple-cursors
+;; flycheck
 
+;; ## ================================================= ##
 ;; default setup
 (setq-default indent-tabs-mode nil)
 (setq c-basic-offset 2)
@@ -14,6 +20,8 @@
 (setq make-backup-files nil)
 
 
+
+;; ## ================================================= ##
 ;; elpa package setup
 
 ;; (load-theme 'spacemacs-dark t)
@@ -48,7 +56,7 @@
  '(custom-safe-themes
    (quote
     ("57f95012730e3a03ebddb7f2925861ade87f53d5bbb255398357731a7b1ac0e0" default)))
- '(package-selected-packages (quote (atom-one-dark-theme))))
+ '(package-selected-packages (quote (flycheck smex atom-one-dark-theme))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -63,10 +71,21 @@
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
+(require 'smex) ; Not needed if you use package.el
+(smex-initialize) ; Can be omitted. This might cause a (minimal) delay
+                  ; when Smex is auto-initialized on its first run.
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+;; This is your old M-x.
+(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
+
+;; ## ================================================= ##
 ;; code related setup
 
+(add-to-list 'auto-mode-alist '("\\.cu\\'" . c++-mode))
 
+;; ## ================================================= ##
 ;; my own func setup
 
 (defun insert-break-line()

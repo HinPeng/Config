@@ -2,6 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
+export TERM="xterm-256color"
 export ZSH="/Users/_xuanpeng/.oh-my-zsh"
 # export VIRTUAL_ENV_DISABLE_PROMPT=0
 
@@ -75,6 +76,7 @@ plugins=(
 # DEFAULT_USER="xp"
 
 source $ZSH/oh-my-zsh.sh
+export LANG="en_US.UTF-8"
 
 # User configuration
 
@@ -106,3 +108,5 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 
+alias ll='ls -alF'
+alias la='ls -A'
