@@ -11,10 +11,13 @@ export ZSH="/Users/_xuanpeng/.oh-my-zsh"
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 # ZSH_THEME="robbyrussell
 # ZSH_THEME="agnoster"
-ZSH_THEME="powerlevel9/powerlevel9k"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(virtualenv context dir rbenv vcs)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs)
+# POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(virtualenv dir rbenv vcs)
+# POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs)
+# POWERLEVEL9K_SHORTEN_STRATEGY="truncate_to_last"
+
+# ZSH_THEME="robbyrussell"
 
 # Set list of themes to load
 # Setting this variable when ZSH_THEME=random
@@ -110,3 +113,4 @@ export LANG="en_US.UTF-8"
 
 alias ll='ls -alF'
 alias la='ls -A'
+source ~/.purepower
