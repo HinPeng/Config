@@ -5,7 +5,8 @@
     "editor.detectIndentation": false,
     "editor.tabSize": 2,
     "files.eol": "\n",
-    "python.pythonPath": "C:/Users/v-xuapen/AppData/Local/Programs/Python/Python36-32/python.exe",
+    // configure the pythonpath to local
+    // "python.pythonPath": "C:/Users/v-xuapen/AppData/Local/Programs/Python/Python36-32/python.exe",
     "window.zoomLevel": 0,
     "window.closeWhenEmpty": true,
     "window.newWindowDimensions": "maximized",

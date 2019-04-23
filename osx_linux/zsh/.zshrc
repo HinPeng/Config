@@ -3,6 +3,7 @@
 
 # Path to your oh-my-zsh installation.
 export TERM="xterm-256color"
+# OH_MY_ZSH dir, config it to local
 export ZSH="/Users/_xuanpeng/.oh-my-zsh"
 # export VIRTUAL_ENV_DISABLE_PROMPT=0
 
