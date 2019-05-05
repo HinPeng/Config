@@ -31,7 +31,7 @@
 (load-theme 'atom-one-dark t)
 
 ;; turn on mouse in console mode
-(xterm-mouse-mode t)
+;; (xterm-mouse-mode t)
 
 ;; (custom-set-variables
  ;; custom-set-variables was added by Custom.
