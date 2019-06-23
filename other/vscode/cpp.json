@@ -26,5 +26,10 @@
     "prefix": "def_n_cplusplus",
     "body": "#ifndef ${1:${TM_FILENAME_BASE/(.*)/_${1:/upcase}_H/i}} \n#define $1 \n#endif\t// $1",
     "description": "avoid repeated include w/o cplusplus"
+  },
+  "todo prefix": {
+    "prefix": "todo-prefix",
+    "body": "// TODO(px): ",
+    "description": "add a todo"
   }
 }
