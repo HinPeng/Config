@@ -28,7 +28,14 @@
 
 ;; (set-face-attribute 'default nil :height 200)
 
-(load-theme 'atom-one-dark t)
+;; (load-theme 'atom-one-dark t)
+
+(if (daemonp)
+    (add-hook 'after-make-frame-functions
+        (lambda (frame)
+            (select-frame frame)
+            (load-theme 'atom-one-dark t)))
+    (load-theme 'atom-one-dark t))
 
 ;; turn on mouse in console mode
 ;; (xterm-mouse-mode t)

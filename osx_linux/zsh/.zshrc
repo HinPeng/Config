@@ -3,17 +3,15 @@
 
 # Path to your oh-my-zsh installation.
 export TERM="xterm-256color"
-# OH_MY_ZSH dir, config it to local
-#export ZSH="/Users/_xuanpeng/.oh-my-zsh"
-export ZSH="${HOME}/.oh-my-zsh"
+export ZSH="/Users/_xuanpeng/.oh-my-zsh"
 # export VIRTUAL_ENV_DISABLE_PROMPT=0
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-# ZSH_THEME="robbyrussell
+ZSH_THEME="robbyrussell"
 # ZSH_THEME="agnoster"
-ZSH_THEME="powerlevel10k/powerlevel10k"
+# ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(virtualenv dir rbenv vcs)
 # POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs)
@@ -116,3 +114,23 @@ export LANG="en_US.UTF-8"
 alias ll='ls -alF'
 alias la='ls -A'
 source ~/.purepower
+
+
+# alias emacs
+alias emacsd='emacs --daemon'
+alias et='emacsclient -t'
+alias ec='emacsclient -c'
+
+# run emacs daemon
+# [[ -z $(ps -C 'emacs --daemon' -o pid=) ]] && emacsd
+# for macos ps which has no option '-C'
+[[ -z $(ps -eo pid,command | grep emacs | grep -v grep | cut -d ' ' -f 1) ]] && emacsd
+
+# add kill emacs function
+function kill-emacs(){
+    emacsclient -e "(kill-emacs)"
+    # emacs_pid=$( ps -C 'emacs --daemon' -o pid= )
+    # if [[ -n "${emacs_pid}" ]];then
+    #     kill -9 "${emacs_pid}"
+    # fi
+}
