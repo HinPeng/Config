@@ -1,0 +1,37 @@
+[
+  {
+    "ip": "202.114.10.172",
+    "port" : "22",
+    "username" : "frog",
+    "pwd" : "node307",
+    "alias" : "node307"
+  },
+  {
+    "ip": "node335",
+    "port" : "22",
+    "username" : "xuapen",
+    "pwd" : "node335",
+    "alias" : "node335"
+  },
+  {
+    "ip": "222.20.79.232",
+    "port" : "50022",
+    "username" : "frog",
+    "pwd" : "cgclsys",
+    "alias" : "node22"
+  },
+  {
+    "ip": "202.114.6.17",
+    "port" : "23",
+    "username" : "xuanpeng",
+    "pwd" : "cgclpc",
+    "alias" : "pc"
+  },
+  {
+    "ip": "192.3.251.104",
+    "port" : "22",
+    "username" : "root",
+    "pwd" : "virmach",
+    "alias" : "virmach"
+  }
+]
