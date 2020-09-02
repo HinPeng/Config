@@ -49,10 +49,10 @@
   # Left prompt segments.
   typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
     # context                   # user@host
+    virtualenv                # python virtual environment
     dir                       # current directory
     vcs                       # git status
-    # command_execution_time    # previous command duration
-    virtualenv                # python virtual environment
+    # command_execution_time    # previous command duration    
     prompt_char               # prompt symbol
   )
 
@@ -94,7 +94,9 @@
   typeset -g POWERLEVEL9K_VIRTUALENV_FOREGROUND=$grey
   # Don't show Python version.
   typeset -g POWERLEVEL9K_VIRTUALENV_SHOW_PYTHON_VERSION=false
-  typeset -g POWERLEVEL9K_VIRTUALENV_{LEFT,RIGHT}_DELIMITER=
+  # typeset -g POWERLEVEL9K_VIRTUALENV_{LEFT,RIGHT}_DELIMITER=
+  typeset -g POWERLEVEL9k_VIRTUALENV_LEFT_DELIMITER='('
+  typeset -g POWERLEVEL9k_VIRTUALENV_RIGHT_DELIMITER=')'
 
   # Blue current directory.
   typeset -g POWERLEVEL9K_DIR_FOREGROUND=$blue
