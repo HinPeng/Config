@@ -3,15 +3,15 @@
 
 # Path to your oh-my-zsh installation.
 export TERM="xterm-256color"
-export ZSH="/Users/_xuanpeng/.oh-my-zsh"
+export ZSH="${HOME}/.oh-my-zsh"
 # export VIRTUAL_ENV_DISABLE_PROMPT=0
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+# ZSH_THEME="robbyrussell"
 # ZSH_THEME="agnoster"
-# ZSH_THEME="powerlevel10k/powerlevel10k"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(virtualenv dir rbenv vcs)
 # POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs)
@@ -73,7 +73,6 @@ ZSH_THEME="robbyrussell"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
     git
-    virtualenv
 )
 # zsh-syntax-highlighting
 # DEFAULT_USER="xp"
@@ -113,7 +112,7 @@ export LANG="en_US.UTF-8"
 
 alias ll='ls -alF'
 alias la='ls -A'
-source ~/.purepower
+# source ~/.purepower
 
 
 # alias emacs
@@ -134,3 +133,6 @@ function kill-emacs(){
     #     kill -9 "${emacs_pid}"
     # fi
 }
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
