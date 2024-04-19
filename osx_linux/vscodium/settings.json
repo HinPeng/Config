@@ -1,0 +1,267 @@
+{
+    "editor.fontFamily": "Mononoki Nerd Font Mono, EnvyCodeR Nerd Font Mono, CodeNewRoman Nerd Font Mono",
+    "editor.minimap.enabled": false,
+    "editor.detectIndentation": true,
+    "editor.tabSize": 2,
+    "editor.formatOnSave": false,
+    "editor.fontSize": 16,
+    "files.eol": "\n",
+    "window.closeWhenEmpty": true,
+    "window.newWindowDimensions": "maximized",
+    "window.openFilesInNewWindow": "on",
+    "files.autoSave": "onFocusChange",
+    "latex-workshop.view.pdf.viewer": "browser",
+    "explorer.confirmDelete": false,
+    "breadcrumbs.enabled": true,
+    "editor.mouseWheelScrollSensitivity": 2,
+    "http.proxySupport": "off",
+    "git.ignoreLegacyWarning": true,
+    "[cpp]": {
+      "editor.defaultFormatter": "xaver.clang-format"
+    },
+    "explorer.confirmDragAndDrop": false,
+    // custom color and font style display
+    "workbench.colorCustomizations": {
+      "[Noctis Minimus]": {
+        "editor.background": "#14222C",
+        "activityBar.background": "#14222C",
+        "statusBar.background": "#14222C",
+        "statusBar.debuggingBackground": "#14222C",
+        "statusBar.noFolderBackground": "#14222C",
+        "statusBar.noFolderBorder": "#14222C",
+        "editorError.border": "#14222C",
+        "editorWarning.border": "#14222C",
+        "editorInfo.border": "#14222C",
+        "tab.activeBackground": "#14222C",
+        "tab.activeBorder": "#14222C",
+        "tab.unfocusedActiveBorder": "#14222C",
+        "textBlockQuote.background": "#14222C",
+        "textCodeBlock.background": "#14222C",
+        "textSeparator.foreground": "#14222C",
+        "walkThrough.embeddedEditorBackground": "#14222C",
+        "editorGutter.background": "#14222C",
+        "merge.border": "#14222C00",
+        "editorOverviewRuler.border": "#14222C",
+        "debugToolBar.background": "#14222C",
+        "debugExceptionWidget.background": "#14222C",
+        "breadcrumb.background": "#14222C",
+        "titleBar.activeBackground": "#14222C",
+        "titleBar.inactiveBackground": "#14222C",
+        "minimap.background": "#14222C99",
+        "statusBar.border": "#1e3140",
+        "activityBar.border": "#1e3140",
+        "sideBar.border": "#1e3140",
+        "sideBarSectionHeader.border": "#1e3140",
+        "editorGroup.border": "#1e3140",
+        "tab.border": "#1e3140",
+      }
+    },
+    "editor.tokenColorCustomizations": {
+      "[Noctis Minimus]": {
+        "textMateRules": [
+          {
+            "scope": [
+              "variable",
+              "variable.object",
+              "variable.other",
+              "variable.parameter",
+              "support",
+              "entity.name.module",
+              "variable.import.parameter",
+              "variable.other.class",
+              "meta.toc-list.id.html",
+              "source.json meta.structure.dictionary.json support.type.property-name.json",
+              "meta.var.clojure",
+              "entity.name.variable",
+              "source.java meta.class.body.java",
+              "entity.name.package.go",
+              "source.c",
+              "source.cpp",
+              "source.go",
+              "source.python",
+              "meta.function-call.arguments.python",
+              "source.ruby",
+              "source.coffee.embedded.source",
+              "source.coffee",
+              "storage.modifier.import",
+              "storage.modifier.package",
+              "storage.type.annotation",
+              "punctuation.definition.annotation",
+              "source.groovy.embedded.source",
+              "punctuation.definition.variable",
+              "source.powershell",
+              "string.quoted.interpolated.vala constant.character.escape.vala",
+              "source.apacheconf",
+              "source.objc",
+              "source.crystal",
+              "string.quoted.double.kotlin entity.string.template.element.kotlin",
+              "entity.name.package.kotlin",
+              "meta.template.expression.kotlin",
+              "parameter.variable.function",
+              "variable.other.constant.elixir",
+              "source.elixir.embedded.source",
+              "source.sql.embedded",
+              "punctuation.definition.placeholder",
+              "source.swift",
+              "source.julia",
+              "source.shell",
+              "variable.other.normal punctuation.definition.variable.shell",
+              "source.reason variable.language",
+              "source.reason variable.language string.other.link",
+              "source.elm meta.value",
+              "source.elm meta.declaration.module",
+              "meta.embedded.block variable punctuation.definition.variable.php",
+              "string.quoted.double.class.other",
+              "source.toml keyword",
+              "support.type.nim",
+              "source.tf meta.template.expression",
+              "source.scala entity.name.import",
+              "markup.code",
+              "markup.fenced_code.block"
+           ],
+           "settings": {
+              "foreground": "#92bcd4"
+           }
+          },
+          {
+            "scope": [
+              "variable.function",
+              "support.type.property-name",
+              "entity.name.function",
+              "string.other.link",
+              "markup.link",
+              "support.type.vendored",
+              "support.other.variable",
+              "meta.function-call.generic.python",
+              "meta.method-call.groovy meta.method.groovy",
+              "meta.class.body.groovy meta.method.body.java storage.type.groovy",
+              "punctuation.definition.decorator",
+              "support.function.any-method",
+              "text.tex support.function",
+              "text.tex punctuation.definition.function",
+              "entity.name.section.fsharp entity.name.section.fsharp",
+              "support.variable.class.function",
+              "keyword.control.cucumber.table",
+              "punctuation.decorator",
+              "source.tf support.class"
+           ],
+           "settings": {
+              "foreground": "#1994bd"
+           }
+          }
+        ]
+      },
+      "textMateRules": [
+        {
+          "scope": [
+            "keyword",
+            "keyword.control",
+            "storage.modifier", // static keyword
+            "storage.type", //class keyword
+            "storage.type.function.python",
+            "storage.type.annotation",
+            "entity.name.method",
+            "entity.name.section.markdown", // markdown headlines
+            "comment"
+          ],
+          "settings": {
+            "fontStyle": "italic"
+          }
+        },
+        {
+          "scope": [
+            "variable.parameter",
+            "keyword.operator",
+          ],
+          "settings": {
+            "fontStyle": ""
+          }
+        }
+      ]
+    },
+    "extensions.ignoreRecommendations": true,
+    "workbench.iconTheme": "file-icons",
+    "python.pythonPath": "/usr/local/bin/python",
+    "settingsSync.ignoredSettings": [
+      "editor.fontSize",
+      "editor.fontFamily",
+      "graphvizPreview.dotPath",
+      "terminal.integrated.fontSize",
+      "terminal.integrated.fontFamily",
+      "latex-workshop.latex.autoBuild.run",
+      "python.formatting.provider"
+    ],
+    "remote.SSH.remotePlatform": {
+      "cgcl-sys": "linux",
+      "v100-1": "linux",
+      "v100-2": "linux",
+      "v100-11": "linux",
+      "v100-15": "linux",
+      "node24": "linux",
+      "v100s-1": "linux",
+      "a100": "linux"
+    },
+    "workbench.editorAssociations": {
+      "*.ipynb": "jupyter.notebook.ipynb"
+    },
+    "graphvizPreview.engine": "dot",
+    "C_Cpp.default.cppStandard": "c++17",
+    "C_Cpp.default.cStandard": "c11",
+    "clangd.onConfigChanged": "restart",
+    "clangd.arguments": [
+      "-log=verbose"
+    ],
+    "clang.cxxflags": [
+      "-std=c++17"
+    ],
+    "clang.completion.maxBuffer": 4294967296,
+    "clang.executable": "clang++",
+    "clang.cflags": [
+      "-std=c11"
+    ],
+    "C_Cpp.experimentalFeatures": "Enabled",
+    "C_Cpp.intelliSenseEngine": "Tag Parser",
+    "C/C++ Include Guard.Macro Type": "Filepath",
+    "C/C++ Include Guard.Remove Extension": false,
+    "C/C++ Include Guard.Comment Style": "Line",
+    "C/C++ Include Guard.Auto Update Include Guard": false,
+    "terminal.external.osxExec": "Warp.app",
+    "security.workspace.trust.emptyWindow": false,
+    "security.workspace.trust.enabled": false,
+    "clang-format.fallbackStyle": "Google",
+    "editor.suggestSelection": "first",
+    "workbench.sideBar.location": "right",
+    "terminal.integrated.fontFamily": "Mononoki Nerd Font Mono, EnvyCodeR Nerd Font Mono, CodeNewRoman Nerd Font Mono",
+    "terminal.integrated.fontSize": 15,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "git.confirmSync": false,
+    "gitlens.hovers.currentLine.over": "line",
+    "gitlens.hovers.enabled": false,
+    "gitlens.currentLine.enabled": false,
+    "editor.guides.bracketPairs": true,
+    "sync-rsync.autoShowOutput": true,
+    "sync-rsync.autoShowOutputOnError": false,
+    "sync-rsync.autoHideOutput": false,
+    "sync-rsync.showProgress": false,
+    "editor.inlineSuggest.enabled": true,
+    "github.copilot.enable": {
+      "*": false,
+      "yaml": false,
+      "plaintext": false,
+      "markdown": false,
+      "scminput": false
+    },
+    "workbench.editor.empty.hint": "hidden",
+    "workbench.colorTheme": "Noctis Minimus",
+    "workbench.productIconTheme": "icons-carbon",
+    "background.fullscreen": {
+      "images": ["https://images.unsplash.com/photo-1614853316695-60bb46998d6a?ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTcxMzE5MjI1OA&ixlib=rb-4.0.3&auto=format&fit=crop&w=2076&q=80"], // urls of your images
+      // https://images.unsplash.com/photo-1614852207091-9d38a326d2ba?ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY5Njg4Mzg5Nw&ixlib=rb-4.0.3&auto=format&fit=crop&w=2076q=80
+      // https://images.unsplash.com/photo-1614852207179-f21528f68aa0?ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY4NjM4NzYzNw&ixlib=rb-4.0.3&auto=format&fit=crop&w=2076&q=80
+      "opacity": 0.91, // 0.85 ~ 0.95 recommended
+      "size": "cover", // also css, `cover` to self-adaption (recommended)，or `contain`、`200px 200px`
+      "position": "center", // alias to `background-position`, default `center`
+      "interval": 0 // seconds of interval for carousel, default `0` to disabled.
+    },
+    "latex-workshop.latex.autoBuild.run": "never"
+  }
