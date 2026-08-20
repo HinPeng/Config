@@ -1,0 +1,30 @@
+{
+  "listen": {
+    "host": "127.0.0.1",
+    "port": 8787
+  },
+  "gatewayApiKeyEnv": "CODEX_GATEWAY_API_KEY",
+  "defaultModel": "gpt-5.6-luna",
+  "maxBodyBytes": 67108864,
+  "models": {
+    "gpt-5.6-luna": {
+      "baseUrlEnv": "WECODING_LUNA_BASE_URL",
+      "apiKeyEnv": "WECODING_LUNA_API_KEY",
+      "reasoningEffort": "max",
+      "store": false
+    },
+    "gpt-5.6-sol": {
+      "baseUrlEnv": "WECODING_PLUS_BASE_URL",
+      "apiKeyEnv": "WECODING_PLUS_API_KEY",
+      "reasoningEffort": false,
+      "store": null
+    },
+    "gpt-5.6-sol-plus": {
+      "baseUrlEnv": "WECODING_PLUS_BASE_URL",
+      "apiKeyEnv": "WECODING_PLUS_API_KEY",
+      "upstreamModel": "gpt-5.6-sol",
+      "reasoningEffort": false,
+      "store": null
+    }
+  }
+}

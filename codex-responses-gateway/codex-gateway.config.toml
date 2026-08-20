@@ -1,0 +1,14 @@
+# cc-switch / Codex provider template.
+# Create one new Codex provider in cc-switch using this configuration.
+# The project trust entries can be copied from your existing provider if needed.
+
+model_provider = "codex_gateway"
+model = "gpt-5.6-luna"
+
+# Keep model_reasoning_effort out of this single client profile. The local
+# gateway applies the per-model value from routes.json.
+
+[model_providers.codex_gateway]
+name = "Local Codex Model Gateway"
+base_url = "http://127.0.0.1:8787"
+wire_api = "responses"
