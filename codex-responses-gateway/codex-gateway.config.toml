@@ -12,3 +12,4 @@ model = "gpt-5.6-luna"
 name = "Local Codex Model Gateway"
 base_url = "http://127.0.0.1:8787"
 wire_api = "responses"
+requires_openai_auth = true
