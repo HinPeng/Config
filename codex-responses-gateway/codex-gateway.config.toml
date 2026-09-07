@@ -3,10 +3,9 @@
 # The project trust entries can be copied from your existing provider if needed.
 
 model_provider = "codex_gateway"
-model = "gpt-5.6-luna"
+model = "gpt-6-astra"
 
-# Keep model_reasoning_effort out of this single client profile. The local
-# gateway applies the per-model value from routes.json.
+# Request settings are preserved unless routes.json overrides them.
 
 [model_providers.codex_gateway]
 name = "Local Codex Model Gateway"

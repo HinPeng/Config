@@ -6,6 +6,8 @@ import { once } from "node:events";
 import { readFileSync, existsSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { spawnSync } from "node:child_process";
+import { homedir } from "node:os";
 
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const DEFAULT_CONFIG = join(SCRIPT_DIR, "routes.json");
@@ -129,7 +131,7 @@ function validateBaseUrl(value, label) {
 }
 
 function validateRouteConfig(config, { requireSecrets = true } = {}) {
-  if (!config.models[config.defaultModel]) {
+  if (!routeForModel(config, config.defaultModel)) {
     throw new Error(`defaultModel ${config.defaultModel} has no route`);
   }
 
@@ -140,10 +142,17 @@ function validateRouteConfig(config, { requireSecrets = true } = {}) {
     if (!route || typeof route !== "object") {
       throw new Error(`Route ${model} must be an object`);
     }
-    if (!route.baseUrlEnv || !route.apiKeyEnv) {
+    if (route.ccSwitchProvider !== undefined) {
+      if (typeof route.ccSwitchProvider !== "string" || !route.ccSwitchProvider.trim()) {
+        throw new Error(`Route ${model} needs a non-empty ccSwitchProvider`);
+      }
+      if (route.baseUrlEnv || route.apiKeyEnv) {
+        throw new Error(`Route ${model} cannot mix ccSwitchProvider and environment credentials`);
+      }
+    } else if (!route.baseUrlEnv || !route.apiKeyEnv) {
       throw new Error(`Route ${model} needs baseUrlEnv and apiKeyEnv`);
     }
-    if (requireSecrets) {
+    if (requireSecrets && !route.ccSwitchProvider) {
       validateBaseUrl(envValue(route.baseUrlEnv, `${model}.baseUrlEnv`), `${model}.baseUrlEnv`);
       envValue(route.apiKeyEnv, `${model}.apiKeyEnv`);
     }
@@ -200,7 +209,34 @@ function isResponsesPath(pathname) {
 }
 
 function routeForModel(config, model) {
-  return config.models[model] || null;
+  if (Object.hasOwn(config.models, model)) return config.models[model];
+  // Exact matches win, followed by the longest matching family prefix.
+  const pattern = Object.keys(config.models)
+    .filter((key) => key.endsWith("*") && model.toLowerCase().startsWith(key.slice(0, -1).toLowerCase()))
+    .sort((a, b) => b.length - a.length)[0];
+  return pattern ? config.models[pattern] : null;
+}
+
+function loadCcSwitchProviders(config) {
+  const names = [...new Set(Object.values(config.models).map((route) => route.ccSwitchProvider).filter(Boolean))];
+  if (!names.length) return {};
+  const database = config.ccSwitchDatabase || join(homedir(), ".cc-switch", "cc-switch.db");
+  const result = spawnSync(process.env.PYTHON_BIN || "python3", [
+    join(SCRIPT_DIR, "cc-switch-provider.py"), database, ...names,
+  ], { encoding: "utf8", timeout: 10000, maxBuffer: 1024 * 1024 });
+  if (result.error || result.status !== 0) {
+    throw new Error("Cannot load CC Switch providers: requires Python 3.11+, readable database, unique Codex provider names and valid Responses config/auth");
+  }
+  let providers;
+  try { providers = JSON.parse(result.stdout); }
+  catch { throw new Error("Invalid CC Switch provider data"); }
+  for (const name of names) {
+    validateBaseUrl(providers[name]?.baseUrl, `${name}.baseUrl`);
+    if (typeof providers[name]?.apiKey !== "string" || !providers[name].apiKey.trim()) {
+      throw new Error(`CC Switch provider ${name} has no API key`);
+    }
+  }
+  return providers;
 }
 
 function applyRouteOverrides(body, route) {
@@ -354,10 +390,11 @@ function routeSummary(model, route) {
     store: route.store === undefined ? "preserve" : route.store,
     baseUrlEnv: route.baseUrlEnv,
     apiKeyEnv: route.apiKeyEnv,
+    ccSwitchProvider: route.ccSwitchProvider,
   };
 }
 
-function createServer(config, gatewayApiKey) {
+function createServer(config, gatewayApiKey, providers = {}) {
   const maxBodyBytes = Number(config.maxBodyBytes || DEFAULT_MAX_BODY_BYTES);
   const defaultModel = config.defaultModel;
 
@@ -424,8 +461,12 @@ function createServer(config, gatewayApiKey) {
         outboundBody = rawBody;
       }
 
-      const upstreamBaseUrl = envValue(route.baseUrlEnv, `${routeModel}.baseUrlEnv`);
-      const upstreamApiKey = envValue(route.apiKeyEnv, `${routeModel}.apiKeyEnv`);
+      const credentials = route.ccSwitchProvider ? providers[route.ccSwitchProvider] : {
+        baseUrl: envValue(route.baseUrlEnv, `${routeModel}.baseUrlEnv`),
+        apiKey: envValue(route.apiKeyEnv, `${routeModel}.apiKeyEnv`),
+      };
+      const upstreamBaseUrl = credentials.baseUrl;
+      const upstreamApiKey = credentials.apiKey;
       const target = upstreamUrl(upstreamBaseUrl, request);
       const upstreamResponse = await fetch(target, {
         method: request.method,
@@ -464,6 +505,7 @@ async function main() {
 
   const config = loadConfig(configPath);
   const gatewayApiKeyEnv = validateRouteConfig(config, { requireSecrets: mode !== "check" });
+  const providers = loadCcSwitchProviders(config);
 
   if (mode === "check") {
     console.log(`Configuration is valid: ${configPath}`);
@@ -475,7 +517,9 @@ async function main() {
   if (mode === "print-route") {
     const route = routeForModel(config, printModel);
     if (!route) throw new Error(`no route configured for model ${printModel}`);
-    console.log(JSON.stringify(routeSummary(printModel, route), null, 2));
+    console.log(JSON.stringify({ ...routeSummary(printModel, route),
+      baseUrl: providers[route.ccSwitchProvider]?.baseUrl,
+    }, null, 2));
     return;
   }
 
@@ -487,7 +531,7 @@ async function main() {
     throw new Error("listen.port must be an integer between 1 and 65535");
   }
 
-  const server = createServer(config, gatewayApiKey);
+  const server = createServer(config, gatewayApiKey, providers);
   server.listen(port, host, () => {
     console.log(`[gateway] listening on http://${host}:${port}`);
     console.log(`[gateway] default model: ${config.defaultModel}`);

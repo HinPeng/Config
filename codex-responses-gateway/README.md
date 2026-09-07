@@ -1,73 +1,43 @@
 # Codex Responses API 本地模型网关
 
-这个网关让 Codex 只连接一个本地 provider，然后根据 Responses API 请求中的 `model` 选择不同的上游凭据和请求级配置。
+客户端连接一个本地网关，网关根据请求中的 `model`，使用 CC Switch 对应 **Codex** 配置的 `base_url` 和 `auth.OPENAI_API_KEY`：
 
-当前模板包含：
+| 模型 | CC Switch 配置 |
+| --- | --- |
+| `glm-*`、`deepseek-*` | HeroHao-CN |
+| `gpt-*` | WeCoding-Pin |
 
-- `gpt-5.6-luna` → WeCoding-Luna，强制 `reasoning.effort = "max"`，并设置 `store = false`；
-- `gpt-5.6-sol` → WeCoding-Plus，删除显式 `reasoning.effort`，保留 Codex 的默认存储行为；
-- `gpt-5.6-sol-plus` → 一个示例别名，发送给上游时改回 `gpt-5.6-sol`。
+前缀匹配不区分大小写，模型名称原样传给上游。未指定模型时使用 `gpt-6-astra`；未配置的模型请求返回 400。按模型家族路由不代表上游支持该家族中的所有模型。
 
-## 1. 准备环境变量
+## 启动
 
-在本目录复制 `.env.example` 为 `.env`，填入：
+需要 Node.js 18+ 和 Python 3.11+（标准库 SQLite / TOML，无需安装依赖）。可通过 `PYTHON_BIN` 指定 Python 可执行文件。
 
-- `CODEX_GATEWAY_API_KEY`：本地网关密钥；
-- `WECODING_LUNA_BASE_URL` / `WECODING_LUNA_API_KEY`：WeCoding-Luna provider 的上游地址和 Key；
-- `WECODING_PLUS_BASE_URL` / `WECODING_PLUS_API_KEY`：WeCoding-Plus provider 的上游地址和 Key。
-
-不要把真实 Key 写入 `routes.json` 或提交到 Git。
-
-网关会自动补齐 Responses API 的 `/v1` 路径，因此上游地址既可以填 `https://example.com`，也可以填 `https://example.com/v1`。
-
-## 2. 检查并启动
-
-需要 Node.js 18 或更新版本：
+1. 首次使用时复制 `.env.example` 为 `.env`，设置 `CODEX_GATEWAY_API_KEY`。已有 `.env` 可以继续使用。
+2. 确认 CC Switch 中存在名为 `HeroHao-CN` 和 `WeCoding-Pin` 的 Codex 配置。
+3. 检查并启动：
 
 ```bash
-cd /Users/hp/codex-responses-gateway
 node gateway.mjs --check
-node gateway.mjs
-```
-
-看到 `listening on http://127.0.0.1:8787` 后，网关已经启动。
-
-可以用下面的命令检查某个模型的路由，输出不会包含 Key：
-
-```bash
-node gateway.mjs --print-route gpt-5.6-luna
-node gateway.mjs --print-route gpt-5.6-sol
-```
-
-### 后台运行与停止
-
-先给脚本执行权限：
-
-```bash
-chmod +x start-gateway.sh stop-gateway.sh
-```
-
-后台启动：
-
-```bash
+node gateway.mjs --print-route glm-5.3
+node gateway.mjs --print-route deepseek-v3.2
+node gateway.mjs --print-route gpt-6-astra
 ./start-gateway.sh
 ```
 
-脚本会把 PID 写入 `gateway.pid`，日志写入 `gateway.log`。需要停止时执行：
+默认监听 `http://127.0.0.1:8787`，日志写入 `gateway.log`，PID 写入 `gateway.pid`。停止使用 `./stop-gateway.sh`，前台运行使用 `node gateway.mjs`。
 
-```bash
-./stop-gateway.sh
-```
+网关启动时只读 `~/.cc-switch/cc-switch.db`，按配置名和 `app_type = codex` 读取凭据，不依赖 CC Switch 当前选中哪个配置。真实上游 Key 不写入路由文件，也不在路由检查中输出。数据库中修改地址或 Key 后，重启网关生效。
 
-停止脚本会先确认 PID 对应的确实是本目录的网关进程，不会直接终止其他服务。
+可在 `routes.json` 顶层设置 `ccSwitchDatabase` 为其他数据库的绝对路径。`--check` 检查路由及实际 CC Switch 配置；本地网关 Key 在启动时验证。
 
-## 3. 在 cc-switch 中创建单一 Gateway provider
+## 客户端配置
 
-新建一个 Codex provider，把 `codex-gateway.config.toml` 的内容作为配置，或者手动设置：
+在 CC Switch 新建单独的 Codex Gateway 配置，使用本目录的 `codex-gateway.config.toml`，API Key 填 `.env` 中的 `CODEX_GATEWAY_API_KEY`，然后选用该配置。客户端切换模型后，请求会自动路由到对应上游。
 
 ```toml
 model_provider = "codex_gateway"
-model = "gpt-5.6-luna"
+model = "gpt-6-astra"
 
 [model_providers.codex_gateway]
 name = "Local Codex Model Gateway"
@@ -75,39 +45,20 @@ base_url = "http://127.0.0.1:8787"
 wire_api = "responses"
 ```
 
-在该 provider 的 API Key 字段填入与 `CODEX_GATEWAY_API_KEY` 完全相同的值，然后将这个 Gateway provider 设为当前 Codex provider。
+## 路由配置
 
-项目权限仍由 Codex 本地配置管理，不需要迁移到网关。
+`models` 支持精确模型名和末尾 `*` 前缀匹配；精确匹配优先，其次选择最长前缀。当前配置保留请求的 `reasoning.effort`、`store` 和模型名。
 
-## 4. 添加更多分组
+路由可使用 `ccSwitchProvider` 引用配置，或使用原有的 `baseUrlEnv` / `apiKeyEnv` 读取环境变量（同一路由不能混用）。旧 `.env` 中的 `WECODING_LUNA_*` / `WECODING_PLUS_*` 不再被默认路由使用。
 
-在 `routes.json` 增加模型路由即可：
+可选覆盖字段：
 
-```json
-"gpt-5.6-sol-pro": {
-  "baseUrlEnv": "WECODING_PRO_BASE_URL",
-  "apiKeyEnv": "WECODING_PRO_API_KEY",
-  "upstreamModel": "gpt-5.6-sol",
-  "reasoningEffort": "high",
-  "store": false
-}
-```
+- `upstreamModel`：发送给上游时替换模型名，适合本地别名。
+- `reasoningEffort`：字符串覆盖 effort，`false` 删除 effort，`null` 或省略保留原值。
+- `store`：布尔值覆盖，`null` 或省略保留原值。
 
-字段含义：
+## 支持范围
 
-- `reasoningEffort` 为字符串：覆盖请求的 `reasoning.effort`；
-- `reasoningEffort` 为 `false`：删除请求中的显式 effort；
-- 不写 `reasoningEffort` 或写 `null`：保留 Codex 发来的值；
-- `store` 为布尔值：覆盖 Responses API 的 `store`；
-- `store` 为 `null` 或不写：保留 Codex 发来的值；
-- `upstreamModel`：本地使用别名，转发给上游时改成实际模型名。
+支持 Responses API、工具调用、SSE 流式响应及 `/responses/compact`。上游 URL 自动补齐 `/v1`。CC Switch 上游配置必须使用 `wire_api = "responses"`；网关不转换协议，不迁移上游配置中的项目权限、通知、模型目录等客户端设置。
 
-如果多个 cc-switch 分组使用同一个模型名，网关无法仅凭模型名区分它们。请为这些分组使用不同的本地别名，例如 `gpt-5.6-sol-plus` 和 `gpt-5.6-sol-pro`，再通过 `upstreamModel` 改回真实上游模型名。
-
-## 5. 支持范围与限制
-
-网关会原样转发 Responses API 请求、工具调用和 SSE 流式响应，并支持 `/v1/responses`、`/responses` 以及 Responses compact 路径。
-
-网关可以覆盖请求级字段，例如 `model`、`reasoning.effort` 和 `store`；它不能改变 Codex 已经在本地生成的项目权限、通知程序或完整客户端配置。需要切换这类客户端行为时，应继续保留在统一的 Gateway provider 中，或者为它们建立独立的 Codex 配置。
-
-网关默认只监听 `127.0.0.1`，不要把监听地址改成公网地址，除非同时增加 TLS、访问控制和反向代理层。
+验证路由、鉴权及流式转发：`python3 -m unittest discover -s tests -v`。测试仅连接本地模拟上游。

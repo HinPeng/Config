@@ -1,3 +1,4 @@
 .env
 gateway.pid
 gateway.log
+__pycache__/
