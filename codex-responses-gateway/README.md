@@ -11,7 +11,7 @@
 
 ## 启动
 
-需要 Node.js 18+ 和 Python 3.9+（标准库 SQLite / INI 解析，无需安装依赖）。默认使用当前环境 `PATH` 中的 `python3`；也可通过 `PYTHON_BIN` 指定 Python 可执行文件。
+需要 Node.js 18+ 和 Python 3.11+（标准库 SQLite / TOML 解析，无需安装依赖）；Python 3.9 / 3.10 需额外安装 `tomli`。默认使用当前环境 `PATH` 中的 `python3`；也可通过 `PYTHON_BIN` 指定 Python 可执行文件，例如 `PYTHON_BIN=/opt/homebrew/bin/python3 ./start-gateway.sh`。
 
 1. 首次使用时复制 `.env.example` 为 `.env`，设置 `CODEX_GATEWAY_API_KEY`。已有 `.env` 可以继续使用。
 2. 确认 CC Switch 中存在名为 `HeroHao-CN` 和 `WeCoding-Pin` 的 Codex 配置。

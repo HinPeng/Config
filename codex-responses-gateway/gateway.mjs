@@ -225,7 +225,13 @@ function loadCcSwitchProviders(config) {
     join(SCRIPT_DIR, "cc-switch-provider.py"), database, ...names,
   ], { encoding: "utf8", timeout: 10000, maxBuffer: 1024 * 1024 });
   if (result.error || result.status !== 0) {
-    throw new Error("Cannot load CC Switch providers: requires Python 3.11+, readable database, unique Codex provider names and valid Responses config/auth");
+    if (result.error) {
+      throw new Error("Cannot run CC Switch provider reader; check PYTHON_BIN and Python availability");
+    }
+    if (result.stderr?.startsWith("CC_SWITCH_ERROR: TOML parser unavailable;")) {
+      throw new Error("Cannot parse CC Switch TOML: set PYTHON_BIN to Python 3.11+ or install tomli for Python 3.9+");
+    }
+    throw new Error("Cannot load CC Switch providers: check readable database, unique Codex provider names and valid Responses TOML config/auth");
   }
   let providers;
   try { providers = JSON.parse(result.stdout); }

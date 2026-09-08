@@ -48,7 +48,10 @@ class GatewayTest(unittest.TestCase):
                 port = cls.upstreams[i].server_port
                 base = f'http://127.0.0.1:{port}' + ('/v1' if i else '')
                 settings = {'auth': {'OPENAI_API_KEY': f'upstream-key-{i}'}, 'config':
-                    f'model_provider = "custom"\n[model_providers.custom]\nbase_url = "{base}"\nwire_api = "responses"\n'}
+                    f"model_provider = 'custom' # TOML literal string\n"
+                    f'[model_providers."custom"]\nbase_url = "{base}"\nwire_api = "responses" # protocol\n'
+                    '[[skills.config]]\npath = "first"\nenabled = true\n'
+                    '[[skills.config]]\npath = "second"\nenabled = false\n'}
                 db.execute('INSERT INTO providers VALUES (?, ?, ?)', (name, 'codex', json.dumps(settings)))
                 db.execute('INSERT INTO providers VALUES (?, ?, ?)', (name, 'claude', '{}'))
         with socket.socket() as sock:

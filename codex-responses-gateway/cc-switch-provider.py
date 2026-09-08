@@ -1,10 +1,17 @@
 """Read selected Codex providers without modifying the CC Switch database."""
 
-import configparser
 import json
 import sqlite3
 import sys
 from pathlib import Path
+
+try:
+    import tomllib
+except ImportError:
+    try:
+        import tomli as tomllib
+    except ImportError:
+        sys.exit("CC_SWITCH_ERROR: TOML parser unavailable; set PYTHON_BIN to Python 3.11+ or install tomli for Python 3.9+")
 
 
 def main():
@@ -19,26 +26,17 @@ def main():
             if len(rows) != 1:
                 raise ValueError(f"Expected exactly one Codex provider named {name}")
             settings = json.loads(rows[0][0])
-            # Keep the parser compatible with the system Python (< 3.11),
-            # while accepting the quoted keys used by TOML as well.
-            config = configparser.ConfigParser(interpolation=None)
-            config.optionxform = str
-            config.read_string("[__top__]\n" + settings["config"])
-            model_provider = config.get("__top__", "model_provider", fallback=None)
+            config = tomllib.loads(settings["config"])
+            model_provider = config.get("model_provider")
             if not model_provider:
                 raise ValueError("Missing model_provider")
-            provider_key = next(
-                (section for section in config.sections()
-                 if section.strip().strip('"') == f"model_providers.{model_provider.strip().strip(chr(34))}"),
-                None,
-            )
-            if not provider_key:
+            provider = config.get("model_providers", {}).get(model_provider)
+            if not provider:
                 raise ValueError(f"Missing model_providers.{model_provider}")
-            provider = config[provider_key]
-            if provider.get("wire_api", "").strip().strip('"') != "responses":
+            if provider.get("wire_api") != "responses":
                 raise ValueError(f"Provider {name} must use wire_api = responses")
             result[name] = {
-                "baseUrl": provider.get("base_url", "").strip().strip('"'),
+                "baseUrl": provider.get("base_url", ""),
                 "apiKey": settings["auth"]["OPENAI_API_KEY"],
             }
     # Consumed through a pipe by gateway.mjs; never written to logs or disk.
